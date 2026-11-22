@@ -1,0 +1,29 @@
+name: Actualizare hărți
+
+on:
+  schedule:
+    - cron: '28 * * * *'      # în fiecare oră (ora UTC); scriptul descarcă doar rulările noi
+  workflow_dispatch:
+
+concurrency:
+  group: publicare
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  actualizare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: pip install --quiet numpy omfiles requests pillow
+      - name: Rulare alaro_harti.py
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python cloud_model.py alaro_harti.py
