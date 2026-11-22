@@ -2,6 +2,8 @@
    scrie configurarea GitHub din jetonul rulării și pornește scriptul exact ca pe calculator."""
 import os, runpy, shutil, subprocess, sys
 
+import cloud_patch  # noqa: F401  (publicare robustă pe GitHub)
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 script = sys.argv[1]
 repo, token = os.environ["GITHUB_REPOSITORY"], os.environ["GH_TOKEN"]
